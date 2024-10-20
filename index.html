@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background: white;
+            padding: 40px; 
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px; 
+            text-align: center;
+        }
+
+        h1 {
+            color: #000000;
+            margin-bottom: 20px;
+        }
+
+        input[type="date"] {
+            padding: 10px; 
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #007bff;
+            border: none;
+            color: white;
+            padding: 12px 24px; 
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #message {
+            color: red;
+        }
+
+        #result {
+            color: #008CBA;
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        function ageCalculator() {
+            var userinput = document.getElementById("DOB").value;
+            var dob = new Date(userinput);
+            
+            if (userinput == null || userinput == '') {
+                document.getElementById("message").innerHTML = "**Choose a date please!";  
+                return false; 
+            } else {
+                var mdate = userinput.toString();
+                var dobYear = parseInt(mdate.substring(0, 4), 10);
+                var dobMonth = parseInt(mdate.substring(5, 7), 10);
+                var dobDate = parseInt(mdate.substring(8, 10), 10);
+                
+                var today = new Date();
+                var birthday = new Date(dobYear, dobMonth - 1, dobDate);
+                var diffInMillisecond = today.valueOf() - birthday.valueOf();
+                
+                var year_age = Math.floor(diffInMillisecond / 31536000000);
+                var day_age = Math.floor((diffInMillisecond % 31536000000) / 86400000);
+                
+                if ((today.getMonth() == birthday.getMonth()) && (today.getDate() == birthday.getDate())) {
+                    alert("Happy Birthday!");
+                }
+                
+                var month_age = Math.floor(day_age / 30);        
+                day_age = day_age % 30;
+                
+                var tMnt = (month_age + (year_age * 12));
+                var tDays = (tMnt * 30) + day_age;
+                
+                if (dob > today) {
+                    document.getElementById("result").innerHTML = ("Invalid date input - Please try again!");
+                } else {
+                    document.getElementById("result").innerHTML = year_age + " years " + month_age + " months " + day_age + " days";
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="card">
+        <h1>Age Calculator</h1>
+        <b>Enter Date of Birth:</b>
+        <input type="date" id="DOB">
+        <span id="message"></span><br><br>
+        <button type="submit" onclick="ageCalculator()">Calculate age</button>
+        <h3 id="result"></h3>
+    </div>
+</body>
+</html>
